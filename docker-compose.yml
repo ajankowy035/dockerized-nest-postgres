@@ -1,0 +1,27 @@
+version: '3.9'
+services:
+  api:
+    build:
+      context: '.'
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+    command: npm run start:dev
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    environment:
+      DATABASE_URL: 'postgres://usr:pass@postgres:5432/db'
+      NODE_ENV: development
+      PORT: 3000
+    image: nestjs-dockerized
+    ports:
+      - '8089:3000'
+  postgres:
+    environment:
+      POSTGRES_DB: db
+      POSTGRES_PASSWORD: pass
+      POSTGRES_USER: usr
+    image: 'postgres:14.3'
+    ports:
+      - '3500:5432'
