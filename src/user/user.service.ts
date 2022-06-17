@@ -1,6 +1,5 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { from, Observable } from 'rxjs';
 import { Repository } from 'typeorm';
 import { UserEntity } from './models/user.entity';
 import { UserDto } from './dtos/user.dto';
@@ -11,17 +10,49 @@ export class UserService {
     @InjectRepository(UserEntity) private repo: Repository<UserEntity>,
   ) {}
 
-  createUser(
+  async createUser(
     email: string,
     name: string,
     password: string,
-  ): Observable<UserDto> {
+  ): Promise<UserDto> {
     const user = this.repo.create({ name, email, password });
 
-    return from(this.repo.save(user));
+    return await this.repo.save(user);
   }
 
-  findAll(): Observable<UserDto[]> {
-    return from(this.repo.find());
+  findAll(): Promise<UserDto[]> {
+    return this.repo.find();
+  }
+
+  findByEmail(email: string) {
+    return this.repo.findBy({ email });
+  }
+
+  async findOne(id: number): Promise<UserEntity> {
+    return await this.repo.findOneBy({ id });
+  }
+
+  async update(id: number, attrs: Partial<UserEntity>) {
+    try {
+      const curr = await this.findOne(id);
+      if (!curr) {
+        throw new NotFoundException('User not found');
+      }
+      const updatedUser = { ...curr, ...attrs };
+
+      return this.repo.save(updatedUser);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  async remove(id: number) {
+    try {
+      const user = await this.findOne(id);
+
+      this.repo.remove(user);
+    } catch (error) {
+      throw error;
+    }
   }
 }
