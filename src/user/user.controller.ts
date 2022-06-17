@@ -1,23 +1,87 @@
+import {
+  Controller,
+  Session,
+  Body,
+  Get,
+  Post,
+  Param,
+  Patch,
+  UseGuards,
+} from '@nestjs/common';
+import { Serialize } from '../interceptors/serialize.intraceptor';
+import { AuthService } from './auth.service';
 import { UserDto } from './dtos/user.dto';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UserService } from './user.service';
-import { Controller } from '@nestjs/common';
-import { Post } from '@nestjs/common';
-import { Observable } from 'rxjs';
-import { Body } from '@nestjs/common';
-import { Get } from '@nestjs/common';
+import { SignInUserDto } from './dtos/signin-user.dto';
+import { updateUserDto } from './dtos/update-user.dto';
+import { Delete } from '@nestjs/common';
+import { CurrentUser } from './decorators/current-user.decorator';
+import { AuthGuard } from 'src/guards/auth.guard';
 
 @Controller('users')
+@Serialize(UserDto)
 export class UserController {
-  constructor(private userService: UserService) {}
+  constructor(
+    private userService: UserService,
+    private authService: AuthService,
+  ) {}
 
-  @Post()
-  add(@Body() body: CreateUserDto): Observable<UserDto> {
-    return this.userService.createUser(body.email, body.name, body.password);
+  @Get('/user')
+  @UseGuards(AuthGuard)
+  currentUser(@CurrentUser() user: UserDto) {
+    return user;
+  }
+
+  @Post('/signup')
+  async signup(
+    @Body() body: CreateUserDto,
+    @Session() session: any,
+  ): Promise<UserDto> {
+    const user = await this.authService.signup(
+      body.email,
+      body.name,
+      body.password,
+    );
+    session.userId = user.id;
+
+    return user;
+  }
+
+  @Post('/signin')
+  async signin(@Body() body: SignInUserDto, @Session() session: any) {
+    try {
+      const user = await this.authService.signin(body.email, body.password);
+      session.userId = user.id;
+
+      return user;
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  @Post('/signout')
+  signOut(@Session() session: any) {
+    session.userId = null;
   }
 
   @Get()
-  getUsers(): Observable<UserDto[]> {
-    return this.userService.findAll();
+  async getUsers(): Promise<UserDto[]> {
+    return await this.userService.findAll();
+  }
+
+  @Get('/:id')
+  async getUser(@Param('id') id: string): Promise<UserDto> {
+    return await this.userService.findOne(parseInt(id));
+  }
+
+  @Patch('/:id')
+  updateUser(@Param('id') id: string, @Body() body: updateUserDto) {
+    return this.userService.update(parseInt(id), body);
+  }
+
+  @Delete('/:id')
+  remove(@Param('id') id: string) {
+    return this.userService.remove(parseInt(id));
   }
 }
