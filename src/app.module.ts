@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
+import { WalletModule } from './wallet/wallet.module';
 const cookieSession = require('cookie-session');
 
 @Module({
@@ -18,6 +19,7 @@ const cookieSession = require('cookie-session');
       synchronize: true,
     }),
     UserModule,
+    WalletModule,
   ],
   controllers: [AppController],
   providers: [

@@ -1,4 +1,11 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { WalletEntity } from './../../wallet/models/wallet.entity';
 
 @Entity()
 export class UserEntity {
@@ -13,4 +20,10 @@ export class UserEntity {
 
   @Column()
   password: string;
+
+  @OneToOne(() => WalletEntity, (wallet) => wallet.user, {
+    onUpdate: 'RESTRICT',
+  })
+  @JoinColumn()
+  wallet: WalletEntity;
 }

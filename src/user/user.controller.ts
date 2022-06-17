@@ -17,7 +17,7 @@ import { SignInUserDto } from './dtos/signin-user.dto';
 import { updateUserDto } from './dtos/update-user.dto';
 import { Delete } from '@nestjs/common';
 import { CurrentUser } from './decorators/current-user.decorator';
-import { AuthGuard } from 'src/guards/auth.guard';
+import { AuthGuard } from '../guards/auth.guard';
 
 @Controller('users')
 @Serialize(UserDto)
