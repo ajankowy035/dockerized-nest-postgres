@@ -1,7 +1,10 @@
+import { ShelterEntity } from './../../shelter/models/shelter.entity';
 import {
   Column,
   Entity,
   JoinColumn,
+  JoinTable,
+  ManyToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -21,9 +24,12 @@ export class UserEntity {
   @Column()
   password: string;
 
-  @OneToOne(() => WalletEntity, (wallet) => wallet.user, {
-    onUpdate: 'RESTRICT',
-  })
-  @JoinColumn()
+  @OneToOne(() => WalletEntity, (wallet) => wallet.user)
   wallet: WalletEntity;
+
+  @ManyToMany(() => ShelterEntity, (shelter) => shelter.donators, {
+    cascade: true,
+  })
+  @JoinTable()
+  public shelters!: ShelterEntity[];
 }

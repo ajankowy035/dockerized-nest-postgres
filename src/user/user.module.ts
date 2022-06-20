@@ -1,3 +1,4 @@
+import { ShelterModule } from './../shelter/shelter.module';
 import { AuthService } from './auth.service';
 import { UserEntity } from './models/user.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -8,7 +9,7 @@ import { APP_INTERCEPTOR } from '@nestjs/core';
 import { CurrentUserInterceptor } from '../interceptors/current-user.interceptor';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([UserEntity])],
+  imports: [TypeOrmModule.forFeature([UserEntity]), ShelterModule],
   controllers: [UserController],
   providers: [
     UserService,

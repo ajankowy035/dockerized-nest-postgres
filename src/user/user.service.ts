@@ -1,3 +1,5 @@
+import { ShelterService } from './../shelter/shelter.service';
+import { ShelterEntity } from './../shelter/models/shelter.entity';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -8,6 +10,7 @@ import { UserDto } from './dtos/user.dto';
 export class UserService {
   constructor(
     @InjectRepository(UserEntity) private repo: Repository<UserEntity>,
+    private shelterService: ShelterService,
   ) {}
 
   async createUser(
@@ -21,7 +24,11 @@ export class UserService {
   }
 
   findAll(): Promise<UserDto[]> {
-    return this.repo.find();
+    return this.repo.find({
+      relations: {
+        shelters: true,
+      },
+    });
   }
 
   findByEmail(email: string) {
@@ -29,7 +36,11 @@ export class UserService {
   }
 
   async findOne(id: number): Promise<UserEntity> {
-    return await this.repo.findOneBy({ id });
+    const user = await this.repo.findOne({
+      where: { id },
+      relations: ['shelters'],
+    });
+    return user;
   }
 
   async update(id: number, attrs: Partial<UserEntity>) {
