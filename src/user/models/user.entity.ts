@@ -24,7 +24,7 @@ export class UserEntity {
   @Column()
   password: string;
 
-  @OneToOne(() => WalletEntity, (wallet) => wallet.user)
+  @OneToOne(() => WalletEntity, (wallet) => wallet.user, { eager: true })
   wallet: WalletEntity;
 
   @ManyToMany(() => ShelterEntity, (shelter) => shelter.donators, {

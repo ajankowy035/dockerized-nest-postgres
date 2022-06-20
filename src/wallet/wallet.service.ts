@@ -13,7 +13,12 @@ export class WalletService {
   ) {}
 
   async getOne(user: UserEntity) {
-    const wallet = await this.repo.findOneBy({ user });
+    const wallet = await this.repo.findOne({
+      where: { user },
+      relations: {
+        user: true,
+      },
+    });
     if (!wallet) {
       throw new NotFoundException('Wallet not found');
     }

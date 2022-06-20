@@ -1,5 +1,4 @@
 import { ShelterService } from './../shelter/shelter.service';
-import { ShelterEntity } from './../shelter/models/shelter.entity';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
@@ -26,7 +25,7 @@ export class UserService {
   findAll(): Promise<UserDto[]> {
     return this.repo.find({
       relations: {
-        shelters: true,
+        wallet: true,
       },
     });
   }
@@ -38,7 +37,7 @@ export class UserService {
   async findOne(id: number): Promise<UserEntity> {
     const user = await this.repo.findOne({
       where: { id },
-      relations: ['shelters'],
+      relations: ['wallet'],
     });
     return user;
   }
