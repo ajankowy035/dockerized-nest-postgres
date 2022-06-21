@@ -1,6 +1,7 @@
 import { Controller, Body, Post, Get } from '@nestjs/common';
 import { ShelterService } from './shelter.service';
 import { CreateShelterDto } from './dtos/create-shelter.dto';
+import { Param } from '@nestjs/common';
 
 @Controller('shelter')
 export class ShelterController {
@@ -9,6 +10,11 @@ export class ShelterController {
   @Get()
   getAll() {
     return this.shelterService.getAll();
+  }
+
+  @Get('/:id')
+  getOne(@Param('id') id: string) {
+    return this.shelterService.findOne(parseInt(id));
   }
 
   @Post('new')

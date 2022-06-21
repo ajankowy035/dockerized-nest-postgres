@@ -1,5 +1,5 @@
 import { UserEntity } from './../user/models/user.entity';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserService } from '../user/user.service';
 import { Repository } from 'typeorm';
@@ -17,7 +17,16 @@ export class ShelterService {
   }
 
   async findOne(id: number) {
-    return this.repo.findOne({ where: { id }, relations: { donators: true } });
+    const shelter = this.repo.findOne({
+      where: { id },
+      relations: { donators: true },
+    });
+
+    if (!shelter) {
+      throw new NotFoundException('Shelter not found');
+    }
+
+    return shelter;
   }
 
   async createShelter(name: string) {
