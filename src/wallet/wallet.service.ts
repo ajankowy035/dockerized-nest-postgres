@@ -38,7 +38,7 @@ export class WalletService {
       throw new NotFoundException('Wallet not found');
     }
 
-    await this.shelterService.donate(shelterId, coins);
+    await this.shelterService.donate(shelterId, coins, user);
 
     const updatedCoins = wallet.coins - coins;
     const updatedWallet = { ...wallet, coins: updatedCoins };

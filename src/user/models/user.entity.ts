@@ -31,5 +31,5 @@ export class UserEntity {
     cascade: true,
   })
   @JoinTable()
-  public shelters!: ShelterEntity[];
+  shelters: ShelterEntity[];
 }
