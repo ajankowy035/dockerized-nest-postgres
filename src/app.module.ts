@@ -1,3 +1,6 @@
+import { ShelterEntity } from './shelter/models/shelter.entity';
+import { WalletEntity } from './wallet/models/wallet.entity';
+import { UserEntity } from './user/models/user.entity';
 import { MiddlewareConsumer, Module, ValidationPipe } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_PIPE } from '@nestjs/core';
@@ -13,11 +16,24 @@ const cookieSession = require('cookie-session');
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
 
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      url: process.env.DATABASE_URL,
-      autoLoadEntities: true,
-      synchronize: true,
+    TypeOrmModule.forRootAsync({
+      useFactory: async () => {
+        if (process.env.NODE_ENV === 'test') {
+          return {
+            type: 'sqlite',
+            database: 'test.sqlite',
+            entities: [UserEntity, WalletEntity, ShelterEntity],
+            synchronize: true,
+          };
+        } else {
+          return {
+            type: 'postgres',
+            url: process.env.DATABASE_URL,
+            autoLoadEntities: true,
+            synchronize: true,
+          };
+        }
+      },
     }),
     UserModule,
     WalletModule,
