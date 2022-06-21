@@ -18,7 +18,9 @@ export class WalletEntity {
   coins: number;
 
   @OneToOne(() => UserEntity, (user) => user.wallet, {
+    cascade: true,
     onUpdate: 'RESTRICT',
+    onDelete: 'CASCADE',
   })
   @JoinColumn()
   user: UserEntity;

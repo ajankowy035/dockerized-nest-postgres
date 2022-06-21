@@ -1,5 +1,5 @@
+import { Expose, Transform } from 'class-transformer';
 import { WalletEntity } from './../../wallet/models/wallet.entity';
-import { Expose } from 'class-transformer';
 
 export class UserDto {
   @Expose()
@@ -12,5 +12,6 @@ export class UserDto {
   name: string;
 
   @Expose()
+  @Transform(({ obj }) => obj?.wallet?.id)
   wallet: WalletEntity;
 }

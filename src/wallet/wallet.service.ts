@@ -1,6 +1,7 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
+import { ShelterService } from './../shelter/shelter.service';
 import { WalletEntity } from './models/wallet.entity';
 import { UserEntity } from './../user/models/user.entity';
 
@@ -8,11 +9,16 @@ import { UserEntity } from './../user/models/user.entity';
 export class WalletService {
   constructor(
     @InjectRepository(WalletEntity) private repo: Repository<WalletEntity>,
+    private shelterService: ShelterService,
   ) {}
 
-  getOne(user: UserEntity) {
-    const wallet = this.repo.findOneBy({ user });
-
+  async getOne(user: UserEntity) {
+    const wallet = await this.repo.findOne({
+      where: { user },
+      relations: {
+        user: true,
+      },
+    });
     if (!wallet) {
       throw new NotFoundException('Wallet not found');
     }
@@ -25,12 +31,14 @@ export class WalletService {
     return this.repo.save(wallet);
   }
 
-  async donate(id: number, coins: number) {
+  async donate(shelterId: number, id: number, coins: number, user: UserEntity) {
     const wallet = await this.repo.findOneBy({ id });
 
     if (!wallet) {
       throw new NotFoundException('Wallet not found');
     }
+
+    await this.shelterService.donate(shelterId, coins, user);
 
     const updatedCoins = wallet.coins - coins;
     const updatedWallet = { ...wallet, coins: updatedCoins };
@@ -45,9 +53,8 @@ export class WalletService {
       throw new NotFoundException('Wallet not found');
     }
 
-    const updatedCoins = wallet.coins + coins;
+    const updatedCoins = Number(wallet.coins) + coins;
     const updatedWallet = { ...wallet, coins: updatedCoins };
-    console.log(updatedWallet);
     return this.repo.save(updatedWallet);
   }
 }

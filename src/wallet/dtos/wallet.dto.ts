@@ -1,5 +1,4 @@
 import { Expose, Transform } from 'class-transformer';
-import { IsOptional } from 'class-validator';
 
 export class WalletDto {
   @Expose()
@@ -8,7 +7,7 @@ export class WalletDto {
   @Expose()
   coins: number;
 
-  @Transform(({ obj }) => obj?.user?.id)
   @Expose()
+  @Transform(({ obj }) => obj?.user?.id)
   userId: number;
 }

@@ -6,6 +6,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { WalletModule } from './wallet/wallet.module';
+import { ShelterModule } from './shelter/shelter.module';
 const cookieSession = require('cookie-session');
 
 @Module({
@@ -20,6 +21,7 @@ const cookieSession = require('cookie-session');
     }),
     UserModule,
     WalletModule,
+    ShelterModule,
   ],
   controllers: [AppController],
   providers: [

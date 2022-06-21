@@ -1,6 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { ShelterEntity } from './../shelter/models/shelter.entity';
 import { UserEntity } from './models/user.entity';
 import { UserDto } from './dtos/user.dto';
 
@@ -21,7 +22,12 @@ export class UserService {
   }
 
   findAll(): Promise<UserDto[]> {
-    return this.repo.find();
+    return this.repo.find({
+      relations: {
+        wallet: true,
+        shelters: true,
+      },
+    });
   }
 
   findByEmail(email: string) {
@@ -29,7 +35,12 @@ export class UserService {
   }
 
   async findOne(id: number): Promise<UserEntity> {
-    return await this.repo.findOneBy({ id });
+    const user = await this.repo.findOne({
+      where: { id },
+      relations: ['wallet', 'shelters'],
+    });
+
+    return user;
   }
 
   async update(id: number, attrs: Partial<UserEntity>) {
@@ -54,5 +65,15 @@ export class UserService {
     } catch (error) {
       throw error;
     }
+  }
+
+  async donate(shelter: ShelterEntity, userId: number) {
+    const user = await this.findOne(userId);
+
+    if (!user.shelters.includes(shelter)) {
+      user.shelters = [...user.shelters, shelter];
+    }
+
+    return this.repo.save(user);
   }
 }
