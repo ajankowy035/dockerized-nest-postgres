@@ -1,5 +1,5 @@
-import { ShelterService } from './shelter.service';
 import { Test, TestingModule } from '@nestjs/testing';
+import { ShelterService } from './shelter.service';
 import { ShelterController } from './shelter.controller';
 
 describe('ShelterController', () => {

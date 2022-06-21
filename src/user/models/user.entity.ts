@@ -1,13 +1,12 @@
-import { ShelterEntity } from './../../shelter/models/shelter.entity';
 import {
   Column,
   Entity,
-  JoinColumn,
   JoinTable,
   ManyToMany,
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { ShelterEntity } from './../../shelter/models/shelter.entity';
 import { WalletEntity } from './../../wallet/models/wallet.entity';
 
 @Entity()

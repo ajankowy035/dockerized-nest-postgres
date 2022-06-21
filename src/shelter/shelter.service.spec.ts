@@ -1,9 +1,9 @@
+import { getRepositoryToken } from '@nestjs/typeorm';
+import { Test, TestingModule } from '@nestjs/testing';
 import { ShelterEntity } from './models/shelter.entity';
 import { UserEntity } from './../user/models/user.entity';
-import { Test, TestingModule } from '@nestjs/testing';
 import { UserService } from '../user/user.service';
 import { ShelterService } from './shelter.service';
-import { getRepositoryToken } from '@nestjs/typeorm';
 
 const mockRepository = jest.fn(() => ({
   metadata: {

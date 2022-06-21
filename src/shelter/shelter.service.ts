@@ -1,8 +1,8 @@
-import { UserEntity } from './../user/models/user.entity';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserService } from '../user/user.service';
 import { Repository } from 'typeorm';
+import { UserEntity } from './../user/models/user.entity';
+import { UserService } from '../user/user.service';
 import { ShelterEntity } from './models/shelter.entity';
 
 @Injectable()

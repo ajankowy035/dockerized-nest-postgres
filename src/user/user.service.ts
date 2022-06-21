@@ -1,7 +1,7 @@
-import { ShelterEntity } from './../shelter/models/shelter.entity';
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { ShelterEntity } from './../shelter/models/shelter.entity';
 import { UserEntity } from './models/user.entity';
 import { UserDto } from './dtos/user.dto';
 

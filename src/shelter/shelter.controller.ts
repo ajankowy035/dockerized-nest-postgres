@@ -1,7 +1,6 @@
-import { Controller, Body, Post, Get } from '@nestjs/common';
+import { Controller, Body, Post, Get, Param } from '@nestjs/common';
 import { ShelterService } from './shelter.service';
 import { CreateShelterDto } from './dtos/create-shelter.dto';
-import { Param } from '@nestjs/common';
 
 @Controller('shelter')
 export class ShelterController {

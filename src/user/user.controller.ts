@@ -7,6 +7,7 @@ import {
   Param,
   Patch,
   UseGuards,
+  Delete,
 } from '@nestjs/common';
 import { Serialize } from '../interceptors/serialize.intraceptor';
 import { AuthService } from './auth.service';
@@ -15,7 +16,6 @@ import { CreateUserDto } from './dtos/create-user.dto';
 import { UserService } from './user.service';
 import { SignInUserDto } from './dtos/signin-user.dto';
 import { updateUserDto } from './dtos/update-user.dto';
-import { Delete } from '@nestjs/common';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { AuthGuard } from '../guards/auth.guard';
 
