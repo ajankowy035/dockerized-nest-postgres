@@ -16,5 +16,7 @@ jobs:
         run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
       - name: install
         run: npm install
-      - name: test
+      - name: unit test
         run: npm test
+      - name: e2e test
+        run: npm test:e2e
