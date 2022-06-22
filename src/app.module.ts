@@ -16,10 +16,9 @@ const cookieSession = require('cookie-session');
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => {
-        if (configService.get('NODE_ENV') === 'test') {
+        if (configService.get<string>('NODE_ENV') === 'test') {
           return {
             type: 'sqlite',
             database: 'test.sqlite',
