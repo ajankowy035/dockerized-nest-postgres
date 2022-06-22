@@ -3,7 +3,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
 import { AppModule } from '../src/app.module';
 
-describe('Authentification (e2e)', () => {
+describe('Wallet (e2e)', () => {
   let app: INestApplication;
 
   beforeEach(async () => {

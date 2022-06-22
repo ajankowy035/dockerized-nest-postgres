@@ -14,6 +14,5 @@ export class ShelterEntity {
   budget: number;
 
   @ManyToMany(() => UserEntity, (user) => user.shelters)
-  @Transform(({ obj }) => obj?.user?.id)
   public donators: UserEntity[];
 }
