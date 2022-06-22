@@ -19,6 +19,4 @@ jobs:
       - name: unit test
         run: npm test
       - name: e2e test
-        run: npm run test:e2e auth
-        run: npm run test:e2e app
-        run: npm run test:e2e wallet
+        run: npm run test:e2e
