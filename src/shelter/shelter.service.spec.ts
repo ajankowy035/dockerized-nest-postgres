@@ -19,15 +19,6 @@ describe('ShelterService', () => {
   beforeEach(async () => {
     fakeUsersService = {
       findAll: () => Promise.resolve([]),
-      donate: () =>
-        Promise.resolve(
-          Promise.resolve({
-            id: 1,
-            email: 'email@mail.com',
-            name: 'testName',
-            password: '123',
-          } as UserEntity),
-        ),
       findOne: () =>
         Promise.resolve({
           id: 1,
