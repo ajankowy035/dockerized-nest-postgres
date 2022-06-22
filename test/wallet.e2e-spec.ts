@@ -99,7 +99,6 @@ describe('Wallet (e2e)', () => {
       .post('/users/signup')
       .send({ email: 'emmaa@email.ue', name: 'Martha', password: '1234a5' })
       .expect(201);
-
     const cookie = userRes.get('Set-Cookie');
 
     const walletRes = await request(app.getHttpServer())
