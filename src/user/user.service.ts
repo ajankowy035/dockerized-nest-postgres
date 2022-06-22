@@ -39,7 +39,6 @@ export class UserService {
       relations: ['wallet', 'shelters'],
     });
 
-    console.log(user.shelters);
     return user;
   }
 
