@@ -1,4 +1,3 @@
-import { Type } from 'class-transformer';
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { UserEntity } from '../../user/models/user.entity';
 
