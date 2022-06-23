@@ -1,3 +1,4 @@
+import { IsOptional } from 'class-validator';
 import {
   Column,
   Entity,
@@ -23,7 +24,7 @@ export class UserEntity {
   @Column()
   password: string;
 
-  @Column({ default: true })
+  @Column({ default: false })
   admin: boolean;
 
   @OneToOne(() => WalletEntity, (wallet) => wallet.user, { eager: true })
