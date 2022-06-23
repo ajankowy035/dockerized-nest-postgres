@@ -48,7 +48,6 @@ export class ShelterService {
       donators,
     };
 
-    this.userService.donate(shelter, user.id);
     return this.repo.save(updatedShelter);
   }
 }

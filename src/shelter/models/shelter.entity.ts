@@ -1,4 +1,3 @@
-import { Transform } from 'class-transformer';
 import { Column, Entity, ManyToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { UserEntity } from '../../user/models/user.entity';
 
@@ -14,6 +13,5 @@ export class ShelterEntity {
   budget: number;
 
   @ManyToMany(() => UserEntity, (user) => user.shelters)
-  @Transform(({ obj }) => obj?.user?.id)
-  public donators: UserEntity[];
+  donators: UserEntity[];
 }

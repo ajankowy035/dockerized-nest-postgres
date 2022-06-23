@@ -1,7 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { ShelterEntity } from './../shelter/models/shelter.entity';
 import { UserEntity } from './models/user.entity';
 import { UserDto } from './dtos/user.dto';
 
@@ -65,15 +64,5 @@ export class UserService {
     } catch (error) {
       throw error;
     }
-  }
-
-  async donate(shelter: ShelterEntity, userId: number) {
-    const user = await this.findOne(userId);
-
-    if (!user.shelters.includes(shelter)) {
-      user.shelters = [...user.shelters, shelter];
-    }
-
-    return this.repo.save(user);
   }
 }
