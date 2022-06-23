@@ -117,6 +117,7 @@ describe('Wallet (e2e)', () => {
 
     const shelterRes = await request(app.getHttpServer())
       .post('/shelter/new')
+      .set('Cookie', cookie)
       .send({ name: 'test shelter' })
       .expect(201);
 

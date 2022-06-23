@@ -1,4 +1,3 @@
-import { AdminGuard } from 'src/guards/admin.guard';
 import {
   Controller,
   Session,
@@ -10,6 +9,7 @@ import {
   UseGuards,
   Delete,
 } from '@nestjs/common';
+import { AdminGuard } from '../guards/admin.guard';
 import { Serialize } from '../interceptors/serialize.intraceptor';
 import { AuthService } from './auth.service';
 import { UserDto } from './dtos/user.dto';

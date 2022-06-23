@@ -1,3 +1,4 @@
+import { CurrentUserMiddleaware } from './../src/user/middlewares/current-user.middleware';
 import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import * as request from 'supertest';
@@ -9,7 +10,10 @@ describe('Shelter (e2e)', () => {
   beforeEach(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
       imports: [AppModule],
-    }).compile();
+    })
+      .overrideProvider(CurrentUserMiddleaware)
+      .useValue(CurrentUserMiddleaware)
+      .compile();
 
     app = moduleFixture.createNestApplication();
     await app.init();
@@ -20,11 +24,23 @@ describe('Shelter (e2e)', () => {
   });
 
   it('/shelter/new (POST)', async () => {
-    const shelterName = 'testShelter';
+    const res = await request(app.getHttpServer())
+      .post('/users/signup')
+      .send({
+        email: 'mail@mail.com',
+        name: 'Martha',
+        password: '12345',
+        admin: true,
+      })
+      .expect(201);
+
+    const shelterName = 'djskfn';
+    const cookie = res.get('Set-Cookie');
 
     await request(app.getHttpServer())
       .post('/shelter/new')
       .send({ name: shelterName })
+      .set('Cookie', cookie)
       .expect(201)
       .then((res) => {
         const { id, budget, name } = res.body;
@@ -36,10 +52,22 @@ describe('Shelter (e2e)', () => {
   });
 
   it('/shelter (GET)', async () => {
+    const res = await request(app.getHttpServer())
+      .post('/users/signup')
+      .send({
+        email: 'mail@mail.com',
+        name: 'Martha',
+        password: '12345',
+        admin: true,
+      })
+      .expect(201);
+
     const shelterName = 'testShelter';
+    const cookie = res.get('Set-Cookie');
 
     await request(app.getHttpServer())
       .post('/shelter/new')
+      .set('Cookie', cookie)
       .send({ name: shelterName })
       .expect(201);
 

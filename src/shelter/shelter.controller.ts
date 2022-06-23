@@ -3,7 +3,7 @@ import { ShelterService } from './shelter.service';
 import { CreateShelterDto } from './dtos/create-shelter.dto';
 import { Serialize } from '../interceptors/serialize.intraceptor';
 import { ShelterDto } from './dtos/shelter.dto';
-import { AdminGuard } from 'src/guards/admin.guard';
+import { AdminGuard } from '../guards/admin.guard';
 import { UseGuards } from '@nestjs/common';
 
 @Controller('shelter')

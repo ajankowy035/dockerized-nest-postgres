@@ -50,6 +50,7 @@ describe('WalletController', () => {
         password: 'password',
         wallet: null,
         shelters: [],
+        admin: false,
       });
     } catch (error) {
       expect(error).toBeDefined();
