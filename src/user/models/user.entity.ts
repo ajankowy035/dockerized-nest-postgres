@@ -23,6 +23,9 @@ export class UserEntity {
   @Column()
   password: string;
 
+  @Column({ default: true })
+  admin: boolean;
+
   @OneToOne(() => WalletEntity, (wallet) => wallet.user, { eager: true })
   wallet: WalletEntity;
 

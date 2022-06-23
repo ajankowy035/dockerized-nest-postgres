@@ -1,3 +1,4 @@
+import { AdminGuard } from 'src/guards/admin.guard';
 import {
   Controller,
   Session,
@@ -31,6 +32,12 @@ export class UserController {
   @UseGuards(AuthGuard)
   currentUser(@CurrentUser() user: UserDto) {
     return user;
+  }
+
+  @Get('/')
+  @UseGuards(AdminGuard)
+  allUsers() {
+    return this.userService.findAll();
   }
 
   @Post('/signup')

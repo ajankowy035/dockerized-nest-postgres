@@ -3,6 +3,8 @@ import { ShelterService } from './shelter.service';
 import { CreateShelterDto } from './dtos/create-shelter.dto';
 import { Serialize } from '../interceptors/serialize.intraceptor';
 import { ShelterDto } from './dtos/shelter.dto';
+import { AdminGuard } from 'src/guards/admin.guard';
+import { UseGuards } from '@nestjs/common';
 
 @Controller('shelter')
 export class ShelterController {
@@ -21,6 +23,7 @@ export class ShelterController {
   }
 
   @Post('new')
+  @UseGuards(AdminGuard)
   createShelter(@Body() body: CreateShelterDto) {
     return this.shelterService.createShelter(body.name);
   }
