@@ -30,7 +30,13 @@ export class UserService {
   }
 
   findByEmail(email: string) {
-    return this.repo.findBy({ email });
+    return this.repo.find({
+      where: { email },
+      relations: {
+        wallet: true,
+        shelters: true,
+      },
+    });
   }
 
   async findOne(id: number): Promise<UserEntity> {
