@@ -28,20 +28,20 @@ const cookieSession = require('cookie-session');
             entities: [UserEntity, ShelterEntity, WalletEntity],
           };
         }
-        if (configService.get<string>('NODE_ENV') === 'production') {
+
+        if (configService.get<string>('NODE_ENV') === 'dev') {
           return {
             type: 'postgres',
-            host: 'ec2-54-147-33-38.compute-1.amazonaws.com',
-            database: 'dfqeppijf747sk',
-            username: 'vvnrzryepeyovv',
+            url: configService.get('DB_URL'),
             autoLoadEntities: true,
             synchronize: true,
             entities: [UserEntity, ShelterEntity, WalletEntity],
           };
         }
+
         return {
           type: 'postgres',
-          url: configService.get('DATABASE_URL'),
+          url: configService.get('HEROKU_BD_URL'),
           autoLoadEntities: true,
           synchronize: true,
           entities: [UserEntity, ShelterEntity, WalletEntity],
