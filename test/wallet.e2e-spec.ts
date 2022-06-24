@@ -88,7 +88,6 @@ describe('Wallet (e2e)', () => {
       .patch('/wallet/charge')
       .send({
         coins: 200,
-        id: walletRes.body.id,
       })
       .set('Cookie', cookie)
       .expect(200)
@@ -97,6 +96,33 @@ describe('Wallet (e2e)', () => {
 
         expect(coins).toBe(200);
       });
+  });
+
+  it('/wallet/charge (PATCH) When user tries to charge with 0 coins', async () => {
+    const userRes = await request(app.getHttpServer())
+      .post('/users/signup')
+      .send({
+        email: 'emmaa@email.ue',
+        name: 'Martha',
+        password: '1234a5',
+        admin: true,
+      })
+      .expect(201);
+
+    const cookie = userRes.get('Set-Cookie');
+
+    const walletRes = await request(app.getHttpServer())
+      .get('/wallet/new')
+      .set('Cookie', cookie)
+      .expect(200);
+
+    await request(app.getHttpServer())
+      .patch('/wallet/charge')
+      .send({
+        coins: 0,
+      })
+      .set('Cookie', cookie)
+      .expect(400);
   });
 
   it('/wallet/donate (PATCH)', async () => {
@@ -120,7 +146,6 @@ describe('Wallet (e2e)', () => {
       .patch('/wallet/charge')
       .send({
         coins: 200,
-        id: walletRes.body.id,
       })
       .set('Cookie', cookie)
       .expect(200);
@@ -135,7 +160,6 @@ describe('Wallet (e2e)', () => {
       .patch('/wallet/donate')
       .send({
         coins: 150,
-        id: walletRes.body.id,
         shelterId: shelterRes.body.id,
       })
       .set('Cookie', cookie)
@@ -145,5 +169,71 @@ describe('Wallet (e2e)', () => {
 
         expect(coins).toBe(50);
       });
+  });
+
+  it('/wallet/donate (PATCH) When user does not have enough coins', async () => {
+    const userRes = await request(app.getHttpServer())
+      .post('/users/signup')
+      .send({
+        email: 'emmaa@email.ue',
+        name: 'Martha',
+        password: '1234a5',
+        admin: true,
+      })
+      .expect(201);
+    const cookie = userRes.get('Set-Cookie');
+
+    const walletRes = await request(app.getHttpServer())
+      .get('/wallet/new')
+      .set('Cookie', cookie)
+      .expect(200);
+
+    const shelterRes = await request(app.getHttpServer())
+      .post('/shelter/new')
+      .set('Cookie', cookie)
+      .send({ name: 'test shelter' })
+      .expect(201);
+
+    await request(app.getHttpServer())
+      .patch('/wallet/donate')
+      .send({
+        coins: 150,
+        shelterId: shelterRes.body.id,
+      })
+      .set('Cookie', cookie)
+      .expect(400);
+  });
+
+  it('/wallet/donate (PATCH) When user tries to donate with 0', async () => {
+    const userRes = await request(app.getHttpServer())
+      .post('/users/signup')
+      .send({
+        email: 'emmaa@email.ue',
+        name: 'Martha',
+        password: '1234a5',
+        admin: true,
+      })
+      .expect(201);
+    const cookie = userRes.get('Set-Cookie');
+
+    const walletRes = await request(app.getHttpServer())
+      .get('/wallet/new')
+      .set('Cookie', cookie)
+      .expect(200);
+
+    const shelterRes = await request(app.getHttpServer())
+      .post('/shelter/new')
+      .set('Cookie', cookie)
+      .send({ name: 'test shelter' })
+      .expect(201);
+
+    await request(app.getHttpServer())
+      .patch('/wallet/donate')
+      .send({
+        coins: 0,
+        shelterId: shelterRes.body.id,
+      })
+      .set('Cookie', cookie)
+      .expect(400);
   });
 });

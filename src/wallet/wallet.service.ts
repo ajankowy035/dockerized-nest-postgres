@@ -45,6 +45,10 @@ export class WalletService {
       throw new NotFoundException('Wallet not found');
     }
 
+    if (!coins) {
+      throw new BadRequestException('Donating with amount of 0');
+    }
+
     if (wallet.coins - coins < 0) {
       throw new BadRequestException('Not enough money in wallet');
     }
@@ -62,6 +66,10 @@ export class WalletService {
 
     if (!wallet) {
       throw new NotFoundException('Wallet not found');
+    }
+
+    if (!coins) {
+      throw new BadRequestException('Charging with amount of 0');
     }
 
     const updatedCoins = Number(wallet.coins) + coins;
