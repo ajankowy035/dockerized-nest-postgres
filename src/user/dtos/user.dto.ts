@@ -13,8 +13,11 @@ export class UserDto {
   name: string;
 
   @Expose()
+  admin: boolean;
+
+  @Expose()
   @Transform(({ obj }) => obj?.wallet?.id)
-  wallet: WalletEntity;
+  wallet_id: number;
 
   @Expose()
   @Transform(({ obj }) =>
@@ -22,5 +25,5 @@ export class UserDto {
       shelter_id: shelter.id,
     })),
   )
-  shelters: ShelterEntity[];
+  shelters: { shelter_id: number }[];
 }

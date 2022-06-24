@@ -10,7 +10,7 @@ describe('UserController', () => {
 
   beforeEach(async () => {
     fakeUserService = {
-      createUser: (email, name, password) =>
+      createUser: (email, name, password, admin) =>
         Promise.resolve({
           id: 1,
           email,
@@ -18,6 +18,7 @@ describe('UserController', () => {
           password,
           wallet: null,
           shelters: [],
+          admin,
         }),
       findByEmail: (email) => Promise.resolve([]),
     };
@@ -41,6 +42,7 @@ describe('UserController', () => {
           password,
           wallet: null,
           shelters: [],
+          admin: false,
         }),
     };
 

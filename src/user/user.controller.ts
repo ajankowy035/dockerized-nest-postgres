@@ -1,3 +1,4 @@
+import { UserEntity } from './models/user.entity';
 import {
   Controller,
   Session,
@@ -44,7 +45,7 @@ export class UserController {
   async signup(
     @Body() body: CreateUserDto,
     @Session() session: any,
-  ): Promise<UserDto> {
+  ): Promise<UserEntity> {
     const user = await this.authService.signup(
       body.email,
       body.name,
@@ -73,12 +74,12 @@ export class UserController {
   }
 
   @Get()
-  async getUsers(): Promise<UserDto[]> {
+  async getUsers(): Promise<UserEntity[]> {
     return await this.userService.findAll();
   }
 
   @Get('/:id')
-  async getUser(@Param('id') id: string): Promise<UserDto> {
+  async getUser(@Param('id') id: string): Promise<UserEntity> {
     return await this.userService.findOne(parseInt(id));
   }
 

@@ -1,3 +1,4 @@
+import { UserEntity } from './models/user.entity';
 import { Test } from '@nestjs/testing';
 import { AuthService } from './auth.service';
 import { UserService } from './user.service';
@@ -18,6 +19,7 @@ describe('AuthService', () => {
           password,
           shelters: [],
           wallet: null,
+          admin: false,
         }),
       findByEmail: () => Promise.resolve([]),
     };
@@ -47,6 +49,7 @@ describe('AuthService', () => {
           password: '12345',
           shelters: [],
           wallet: null,
+          admin: false,
         },
       ]);
     try {
@@ -66,6 +69,7 @@ describe('AuthService', () => {
           password: '12345',
           shelters: [],
           wallet: null,
+          admin: false,
         },
         ,
       ]);

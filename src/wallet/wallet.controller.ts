@@ -34,13 +34,16 @@ export class WalletController {
     @Body() body: WalletDonateDto,
     @CurrentUser() user: UserEntity,
   ): Promise<WalletEntity> {
-    return this.walletService.donate(body.shelterId, body.id, body.coins, user);
+    return this.walletService.donate(body.shelterId, body.coins, user);
   }
 
   @Patch('charge')
   @UseGuards(AuthGuard)
   @Serialize(WalletDto)
-  charge(@Body() body: WalletChargeDto): Promise<WalletEntity> {
-    return this.walletService.charge(body.id, body.coins);
+  charge(
+    @Body() body: WalletChargeDto,
+    @CurrentUser() user: UserEntity,
+  ): Promise<WalletEntity> {
+    return this.walletService.charge(body.coins, user.wallet.id);
   }
 }
