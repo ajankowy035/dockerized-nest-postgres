@@ -69,7 +69,12 @@ describe('Wallet (e2e)', () => {
   it('/wallet/charge (PATCH)', async () => {
     const userRes = await request(app.getHttpServer())
       .post('/users/signup')
-      .send({ email: 'emmaa@email.ue', name: 'Martha', password: '1234a5' })
+      .send({
+        email: 'emmaa@email.ue',
+        name: 'Martha',
+        password: '1234a5',
+        admin: true,
+      })
       .expect(201);
 
     const cookie = userRes.get('Set-Cookie');
@@ -97,7 +102,12 @@ describe('Wallet (e2e)', () => {
   it('/wallet/donate (PATCH)', async () => {
     const userRes = await request(app.getHttpServer())
       .post('/users/signup')
-      .send({ email: 'emmaa@email.ue', name: 'Martha', password: '1234a5' })
+      .send({
+        email: 'emmaa@email.ue',
+        name: 'Martha',
+        password: '1234a5',
+        admin: true,
+      })
       .expect(201);
     const cookie = userRes.get('Set-Cookie');
 
