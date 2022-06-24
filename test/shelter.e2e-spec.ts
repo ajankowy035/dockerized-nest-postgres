@@ -19,7 +19,7 @@ describe('Shelter (e2e)', () => {
     await app.init();
   });
 
-  afterAll(() => {
+  afterEach(() => {
     app.close();
   });
 

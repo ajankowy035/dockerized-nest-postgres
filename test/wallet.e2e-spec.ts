@@ -15,7 +15,7 @@ describe('Wallet (e2e)', () => {
     await app.init();
   });
 
-  afterAll(() => {
+  afterEach(() => {
     app.close();
   });
 

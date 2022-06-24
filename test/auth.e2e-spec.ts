@@ -15,7 +15,7 @@ describe('Authentification (e2e)', () => {
     await app.init();
   });
 
-  afterAll(() => {
+  afterEach(() => {
     app.close();
   });
 
