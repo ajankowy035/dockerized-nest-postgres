@@ -1,9 +1,10 @@
+import { MiddlewareConsumer, Module, ValidationPipe } from '@nestjs/common';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { APP_GUARD, APP_PIPE } from '@nestjs/core';
+import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { ShelterEntity } from './shelter/models/shelter.entity';
 import { WalletEntity } from './wallet/models/wallet.entity';
 import { UserEntity } from './user/models/user.entity';
-import { MiddlewareConsumer, Module, ValidationPipe } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { APP_PIPE } from '@nestjs/core';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -39,6 +40,10 @@ const cookieSession = require('cookie-session');
     UserModule,
     WalletModule,
     ShelterModule,
+    ThrottlerModule.forRoot({
+      ttl: 60,
+      limit: 10,
+    }),
   ],
   controllers: [AppController],
   providers: [
@@ -48,6 +53,10 @@ const cookieSession = require('cookie-session');
       useValue: new ValidationPipe({
         whitelist: true,
       }),
+    },
+    {
+      provide: APP_GUARD,
+      useClass: ThrottlerGuard,
     },
   ],
 })
