@@ -9,6 +9,7 @@ import {
   UseGuards,
   Delete,
 } from '@nestjs/common';
+import { AdminGuard } from '../guards/admin.guard';
 import { Serialize } from '../interceptors/serialize.intraceptor';
 import { AuthService } from './auth.service';
 import { UserDto } from './dtos/user.dto';
@@ -31,6 +32,12 @@ export class UserController {
   @UseGuards(AuthGuard)
   currentUser(@CurrentUser() user: UserDto) {
     return user;
+  }
+
+  @Get('/')
+  @UseGuards(AdminGuard)
+  allUsers() {
+    return this.userService.findAll();
   }
 
   @Post('/signup')

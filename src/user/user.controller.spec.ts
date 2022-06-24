@@ -31,6 +31,7 @@ describe('UserController', () => {
           password,
           wallet: null,
           shelters: [],
+          admin: false,
         }),
       signup: (email, password) =>
         Promise.resolve({
@@ -72,7 +73,12 @@ describe('UserController', () => {
   it('SIGNUP updates session and returns user', async () => {
     const session = { userId: 0 };
     const user = await controller.signup(
-      { email: 'abc@abc.com', name: 'Tina', password: 'password' },
+      {
+        email: 'abc@abc.com',
+        name: 'Tina',
+        password: 'password',
+        admin: false,
+      },
       session,
     );
   });
