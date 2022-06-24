@@ -34,6 +34,20 @@ describe('Authentification (e2e)', () => {
       });
   });
 
+  it('/users/signup (POST) when user with provided email exists', async () => {
+    const userEmail = 'ab1cs@test.com';
+
+    request(app.getHttpServer())
+      .post('/users/signup')
+      .send({ email: userEmail, name: 'Martha', password: '12345' })
+      .expect(201);
+
+    request(app.getHttpServer())
+      .post('/users/signup')
+      .send({ email: userEmail, name: 'Martha', password: '12345' })
+      .expect(400);
+  });
+
   it('/users/user (GET)', async () => {
     const email = 'axb1c@test.com';
     const name = 'TestName';
@@ -72,5 +86,45 @@ describe('Authentification (e2e)', () => {
         expect(email).toBe(userEmail);
         expect(id).toBeDefined();
       });
+  });
+
+  it('/users/signin (POST) with incorrect email', async () => {
+    const userEmail = 'ab1c@test.com';
+    const userPassword = '12345';
+
+    await request(app.getHttpServer())
+      .post('/users/signup')
+      .send({ email: userEmail, name: 'Martha', password: userPassword });
+
+    await request(app.getHttpServer())
+      .post('/users/signin')
+      .send({ email: 'dsfsfdds@dsf.com', password: 'dsfd' })
+      .expect(404);
+  });
+
+  it('/users/signin (POST) with incorrect password', async () => {
+    const userEmail = 'ab1c@test.com';
+    const userPassword = '12345';
+
+    await request(app.getHttpServer())
+      .post('/users/signup')
+      .send({ email: userEmail, name: 'Martha', password: userPassword });
+
+    await request(app.getHttpServer())
+      .post('/users/signin')
+      .send({ email: userEmail, password: 'dsfd' })
+      .expect(400);
+  });
+
+  it('/users/signout (POST)', async () => {
+    const userEmail = 'ab1c@test.com';
+    const userPassword = '12345';
+
+    await request(app.getHttpServer())
+      .post('/users/signup')
+      .send({ email: userEmail, name: 'Martha', password: userPassword })
+      .expect(201);
+
+    await request(app.getHttpServer()).post('/users/signout').expect(201);
   });
 });
