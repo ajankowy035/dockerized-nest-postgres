@@ -50,6 +50,7 @@ export class UserController {
       body.email,
       body.name,
       body.password,
+      body.admin,
     );
     session.userId = user.id;
 
