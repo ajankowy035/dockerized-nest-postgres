@@ -28,6 +28,17 @@ const cookieSession = require('cookie-session');
             entities: [UserEntity, ShelterEntity, WalletEntity],
           };
         }
+        if (configService.get<string>('NODE_ENV') === 'production') {
+          return {
+            type: 'postgres',
+            host: 'ec2-54-147-33-38.compute-1.amazonaws.com',
+            database: 'dfqeppijf747sk',
+            username: 'vvnrzryepeyovv',
+            autoLoadEntities: true,
+            synchronize: true,
+            entities: [UserEntity, ShelterEntity, WalletEntity],
+          };
+        }
         return {
           type: 'postgres',
           url: configService.get('DATABASE_URL'),
