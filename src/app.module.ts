@@ -51,11 +51,9 @@ const cookieSession = require('cookie-session');
           synchronize: true,
           entities: [UserEntity, ShelterEntity, WalletEntity],
           logging: false,
-          dialectOptions: {
-            ssl: {
-              require: true,
-              rejectUnauthorized: false,
-            },
+          ssl: {
+            require: true,
+            rejectUnauthorized: false,
           },
         };
       },
