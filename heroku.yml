@@ -1,10 +1,9 @@
-setup:
-  addons:
-    - plan: heroku-postgresql
-      as: DATABASE
-  config:
-    HEROKU_DB_URI: postgres://vvnrzryepeyovv:f7604a7bd509519a8700d7ccf38710fbcdd1e999e5ee03257b3a42b3957f5e78@ec2-54-147-33-38.compute-1.amazonaws.com:5432/dfqeppijf747sk
-docker:
-  web: Dockerfile
-  run:
-    web: npm run build && npm run start:prod
+build:
+  docker:
+    web: Dockerfile
+run:
+  web: npm run build && npm run start:prod
+release:
+  image: web
+  command:
+    - npm rin migrate up
