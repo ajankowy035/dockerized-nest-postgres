@@ -20,14 +20,21 @@ After merging with main branch and passing tests automatically starts deployment
 
 ## Endpoints
 GET /users - as admin you can get the list of all users
+
 POST /users/signup - register new user
+
 POST /users/signin - login user
 
+
 POST /shelter/new - as admin you can create a new shelter
+
 GET /shelter - all shelters list
 
+
 GET /wallet/new - create a wallet for current user
+
 PATCH /wallet/charge - charge users's wallet
+
 PATCH /wallet/donate - donate shelter from user's wallet
 
     
