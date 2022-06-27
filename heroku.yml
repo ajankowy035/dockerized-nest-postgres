@@ -5,5 +5,3 @@ run:
   web: npm run start:prod
 release:
   image: web
-  command:
-    - npm run migrate up
