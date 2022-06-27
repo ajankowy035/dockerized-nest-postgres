@@ -6,4 +6,4 @@ run:
 release:
   image: web
   command:
-    - npm rin migrate up
+    - npm run migrate up
