@@ -2,7 +2,7 @@ build:
   docker:
     web: Dockerfile
 run:
-  web: npm run build && npm run start:prod
+  web: npm run start:prod
 release:
   image: web
   command:
