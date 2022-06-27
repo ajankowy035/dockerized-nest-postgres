@@ -46,7 +46,7 @@ const cookieSession = require('cookie-session');
           password: configService.get('DB_PASSWORD'),
           database: configService.get('DB'),
           host: configService.get('DB_HOST'),
-          port: configService.get('DB_PORT'),
+          port: Number(configService.get('DB_PORT')),
           autoLoadEntities: true,
           synchronize: true,
           entities: [UserEntity, ShelterEntity, WalletEntity],
