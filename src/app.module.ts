@@ -42,9 +42,19 @@ const cookieSession = require('cookie-session');
         return {
           type: 'postgres',
           url: configService.get('HEROKU_BD_URL'),
+          host: configService.get('DB_HOST'),
+          port: Number(configService.get('DB_PORT')),
+          username: configService.get('DB_USER'),
+          password: configService.get('DB_PASSWORD'),
+          database: configService.get('DB'),
           autoLoadEntities: true,
           synchronize: true,
           entities: [UserEntity, ShelterEntity, WalletEntity],
+          logging: false,
+          ssl: {
+            require: true,
+            rejectUnauthorized: false,
+          },
         };
       },
     }),
