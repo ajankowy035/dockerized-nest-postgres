@@ -19,6 +19,8 @@ After merging with main branch and passing tests automatically starts deployment
 [heroku](https://donate-shelter-nestjs.herokuapp.com/)
 
 ## Endpoints
+// TODO add swagger
+
 GET /users - as admin you can get the list of all users
 
 POST /users/signup - register new user
